@@ -1,0 +1,47 @@
+.history-list {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	padding: 40rpx;
+}
+.title {
+	font-size: 26rpx;
+	color: #8995a1;
+}
+.item {
+	margin-top: 40rpx;
+	padding: 15rpx;
+	background-color: #fff;
+	border-radius: 10rpx;
+  	box-shadow: 5px 5px 5px #cdcfcf;
+}
+.item .divLine {
+	margin-top: 8rpx;
+	background: #e5e5e5;
+	width: 100%;
+	height: 2rpx;
+}
+.item .query{
+	color: #8995a1;
+}
+.item .result {
+	margin-top: 16rpx;
+}
+.clearItem {
+	width: 120rpx;
+	height: 120rpx;
+	border: 0;
+	border-radius: 50%;
+	line-height: 120rpx;
+	box-shadow:0px 8rpx 30rpx #aaa;
+	position: fixed;
+	bottom: 20rpx;
+	right: 30rpx;
+}
+.clearItem .icon-cha {
+	line-height: 120rpx;
+	width: 100%;
+	height: 100%;
+	font-size: 30rpx;
+	color: #fff;
+}

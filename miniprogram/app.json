@@ -1,0 +1,42 @@
+{
+  
+  "plugins": {
+		"WechatSI": {
+			"version": "0.3.5",
+			"provider": "wx069ba97219f66d99"	
+        }
+	},
+  "pages":[
+    "pages/index/index",
+    "pages/history/history",
+    "pages/change/change",
+	"pages/photo/photo"
+  ],
+  "window":{
+    "navigationBarBackgroundColor": "#009384",
+    "navigationBarTitleText": "TC机器翻译",
+	"navigationBarTextStyle": "white",
+	"enablePullDownRefresh": true
+	}, 
+	"tabBar": {
+		"borderStyle": "white",
+		"position": "bottom",
+		"color": "#000000",
+		"selectedColor": "#009384",
+		"list": [
+		  {
+			"selectedIconPath": "./assets/img/translateSelect.png",
+			"iconPath": "./assets/img/translate.png",
+			"pagePath": "pages/index/index",
+			"text": "翻译"
+		  },
+		  {
+			"selectedIconPath": "./assets/img/historySelect.png",
+			"iconPath": "./assets/img/history.png",
+			"pagePath": "pages/history/history",
+			"text": "历史"
+		  }
+		]
+	},
+  "sitemapLocation": "sitemap.json"
+}

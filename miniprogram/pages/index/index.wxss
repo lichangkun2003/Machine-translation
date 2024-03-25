@@ -1,0 +1,125 @@
+/**index.wxss**/
+.change {
+	color: #fff;
+	background-color: #009384;
+	font-size: 35rpx;
+	padding: 20rpx 40rpx;
+	display: flex;
+	align-items: center;
+	box-shadow:0px 8rpx 30rpx #aaa;
+}
+.change .icon-down{
+	color: #fff;
+	font-size: 24rpx;
+}
+.change .left-number {
+	color: #8bcdc7;
+	position: absolute;
+	right: 50rpx;
+}
+.input-area {
+	position: relative;
+}
+.textarea-wrap {
+	font-size: 35rpx;
+	background: #009384;
+}
+.input-area textarea {
+	background: #009384;
+	color: #fff;
+	padding: 30rpx 30rpx 30rpx 30rpx;
+	width: 100%;
+	margin: 0;
+	box-sizing: border-box;
+}
+.input-area .icon-cha {
+	position: absolute;
+	right: 12rpx;
+	top: 20rpx;
+	z-index: 100;
+	font-size: 40rpx;
+	color: #fff;
+}
+.text-area {
+	min-height: 80rpx;
+	margin: 30rpx 15rpx 60rpx 15rpx;
+	padding: 40rpx;
+	background-color: #fff;
+	border-radius: 10rpx;
+  box-shadow: 5px 5px 5px #cdcfcf;
+	position:relative;
+}
+.text-title {
+  font-size: 28rpx;
+  color: #8995a1;
+}
+.text-result {
+  padding: 20rpx 0;
+}
+.text-read {
+	position:absolute;
+	margin: 10rpx 0;
+	right:20rpx;
+	bottom:20rpx;
+}
+.text-read .icon-a-5Blaba{
+	font-size: 40rpx;
+}
+.text-read .icon-icon-jingyin{
+	font-size: 40rpx;
+	margin-left: 30rpx;
+}
+.input-translate {
+	width: 120rpx;
+	height: 120rpx;
+	border: 0;
+	border-radius: 50%;
+	background-color: #009384;
+	box-shadow:0px 8rpx 30rpx #aaa;
+	line-height: 120rpx;
+	position: fixed;
+	bottom: 20rpx;
+	right: 30rpx;
+}
+.input-translate .icon-icon-fanyi {
+	font-size: 60rpx;
+	color: #fff;
+}
+
+.fun-wrap {
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+	/* color: #fff; */
+	padding: 30rpx 30rpx 30rpx 30rpx;
+	margin: 30rpx 15rpx;
+  box-sizing: border-box;
+  border-radius: 10rpx;
+  box-shadow: 5px 5px 5px #cdcfcf;
+}
+
+.fun-wrap .sound-recording {
+	font-size: 35rpx;
+	padding: 10rpx 30rpx;
+}
+.fun-wrap .sound-recording .icon-luyin {
+	font-size: 35rpx;
+}
+.fun-wrap .sound-recording-hover {
+	background-color: #8bcdc7;
+}
+
+.fun-wrap .picture {
+	font-size: 35rpx;
+	padding: 10rpx 30rpx;
+}
+.fun-wrap .picture .icon-zhaoxiangji {
+	font-size: 35rpx;
+}
+.fun-wrap .picture .icon-24gl-fileText {
+	font-size: 35rpx;
+}
+.fun-wrap .picture-hover {
+	background-color: #8bcdc7;
+}

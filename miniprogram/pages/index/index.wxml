@@ -1,0 +1,69 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="shaow">
+  <view class="input-area">
+    <text class="iconfont icon-cha" hidden="{{hideClearIcon}}" bindtap='onTapClose'/>
+    <view class="textarea-wrap">
+      <textarea placeholder='请输入要翻译的文本' placeholder-style='color: #8bcdc7'  bindinput='onInput' value="{{query}}"></textarea>
+    </view>
+    
+    <view class="change">
+      <navigator url="/pages/change/change" hover-class="navigator-hover">
+        <block>
+          <text>{{curLang.chs}} </text>
+          <text class="iconfont icon-down"></text>
+          
+        </block> 
+      </navigator>
+          <text class="left-number">{{numberWords}} 字数</text>
+    </view>
+  </view>
+
+  <view class="fun-wrap">
+			<view
+			 class="sound-recording"
+			 hover-class="sound-recording-hover"
+			 bindtouchstart="touchStart"
+			 bindtouchend="touchEnd"
+			>
+				<text class="iconfont icon-luyin"/>
+				<text>  语音</text>
+			</view>
+
+      <view class="picture" hover-class="picture-hover" bindtap="doUpload">
+          <text class="iconfont icon-zhaoxiangji"></text>
+          <text>  照相</text>
+      </view>
+
+      <!-- <navigator url="/pages/photo/photo" hover-class="navigator-hover">
+        <view class="picture" hover-class="picture-hover">
+          <text class="iconfont icon-zhaoxiangji"></text>
+          <text>  照相</text>
+        </view>
+      </navigator> -->
+
+			<view class="picture" hover-class="picture-hover" bindtap="fileUpload">
+			<text class="iconfont icon-24gl-fileText"></text>
+				<text>  文件</text>
+			</view>
+
+		</view>
+
+    <view class="text-area">
+      <view class="text-title">译文</view>
+      <view class="text-result" wx:for="{{result}}" wx:key="index">
+        <text selectable="true">{{item.dst}}</text>
+      </view>
+      <view class="text-read">
+				<text class="iconfont icon-a-5Blaba" bindtap="readText"/>
+				<text class="iconfont icon-icon-jingyin" bindtap="readPause"/>
+      </view>
+    </view>
+  </view>
+  <button class="input-translate" bindtap='onConfirm'>
+    <text class="iconfont icon-icon-fanyi"></text>
+  </button>
+  <view class="copyright">
+    <text>© TC</text>
+  </view>
+</view>
