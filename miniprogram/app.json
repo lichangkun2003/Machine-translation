@@ -13,9 +13,9 @@
 	"pages/photo/photo"
   ],
   "window":{
-    "navigationBarBackgroundColor": "#009384",
-    "navigationBarTitleText": "TC机器翻译",
-	"navigationBarTextStyle": "white",
+	"navigationBarBackgroundColor": "#009384", 
+	"navigationBarTitleText": "语桥通",
+	"navigationBarTextStyle": "white", 
 	"enablePullDownRefresh": true
 	}, 
 	"tabBar": {

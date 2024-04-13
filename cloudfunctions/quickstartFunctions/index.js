@@ -1,25 +1,27 @@
-const getOpenId = require('./getOpenId/index');
-const getMiniProgramCode = require('./getMiniProgramCode/index');
-const createCollection = require('./createCollection/index');
-const selectRecord = require('./selectRecord/index');
-const updateRecord = require('./updateRecord/index');
-const sumRecord = require('./sumRecord/index');
+// 导入依赖
+const Tesseract = require('tesseract.js');
 
-
-// 云函数入口函数
+// 定义云函数
 exports.main = async (event, context) => {
-  switch (event.type) {
-    case 'getOpenId':
-      return await getOpenId.main(event, context);
-    case 'getMiniProgramCode':
-      return await getMiniProgramCode.main(event, context);
-    case 'createCollection':
-      return await createCollection.main(event, context);
-    case 'selectRecord':
-      return await selectRecord.main(event, context);
-    case 'updateRecord':
-      return await updateRecord.main(event, context);
-    case 'sumRecord':
-      return await sumRecord.main(event, context);
+  const { imageBuffer } = event;
+
+  // 确保 imageBuffer 是有效的 Buffer
+  if (!imageBuffer) {
+    return { success: false, message: '无效的图片数据' };
+  }
+
+  try {
+    // 使用 Tesseract 进行文字识别
+    const result = await Tesseract.recognize(
+      imageBuffer, // 图片的 Buffer 数据
+      'chi_sim', // 指定使用中文简体语言包
+      {
+        logger: m => console.log(m), // 日志输出
+      }
+    );
+
+    return { success: true, text: result.text };
+  } catch (error) {
+    return { success: false, message: '文字识别失败', error };
   }
 };

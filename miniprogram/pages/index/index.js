@@ -1,6 +1,6 @@
 // 获取应用实例
 // import {translate, imageInfo} from '../../utils/api.js'
-import {translate, imageInfo} from '../../utils/apitest.js'
+import {translate,imageInfo} from '../../utils/apitest.js'
 const app = getApp();
 
 //引入插件：微信同声传译
@@ -221,15 +221,88 @@ Page({
 		this.innerAudioContext.pause();
 	},
 
+	//根据图片的内容调用API获取图片文字
+	getImgInfo: function (imageData) {
+		wx.showLoading({
+			title: '识别中...',
+		})
+		var that = this
+		that.getBaiduToken().then(res => {
+			// console.log(res)
+			//获取token
+			const token = res.data.access_token
+			// console.log(token)
+			const detectUrl = `https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=${token}` // baiduToken是已经获取的access_Token      
+			wx.request({
+				url: detectUrl,
+				data: {
+					image: imageData
+				},
+				method: 'POST',
+				dataType: 'json',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded' // 必须的        
+				},
+				success: function (res, resolve) {
+					console.log(res)
+					//将 res.data.words_result数组中的内容加入到words中           
+					const words = res.data.words_result.map((word) => word.words).join(""); // 从响应数据中提取文字信息
+					console.log(words)
+					that.setData({
+						query:words,
+						numberWords: words.length
+					}) 
+					that.onConfirm()
+					// wx.hideLoading()
+					 
+        			return { content: words, numberWords: words.length }; // 返回提取的内容和字符数
+					
+				},
+				fail: function (res, reject) {
+					console.log('get word fail：', res.data);
+					wx.hideLoading()
+				},
+				complete: function () {
+					wx.hideLoading()
+				}
+			})
+		})
+	},
+	// 获取百度access_token  
+	getBaiduToken: function () {
+		return new Promise(resolve => {
+			var APIKEY = "luEfsgjXr8PvHwCIq7d3Y9Fn"
+			var SECKEY = "TVReOBGyYnRpNm3AYkfnVPgMSrT9RhRU"
+			var tokenUrl = `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${APIKEY}&client_secret=${SECKEY}`
+			wx.request({
+			url: tokenUrl,
+			method: 'POST',
+			dataType: 'json',
+			header: {
+				'content-type': 'application/json; charset-UTF-8'
+			},
+			success: function (res) {
+				console.log("[BaiduToken获取成功]", res);
+				return resolve(res)
+			},
+			fail: function (res) {
+				console.log("[BaiduToken获取失败]", res);
+				return resolve(res)
+			}
+			})
+		})
+	},
 	//图片识别
 	scanImageInfo: function(imageData) {
-		imageInfo(imageData).then(res => {
-			this.setData({
-				query:res.data.content,
-				numberWords: res.data.numberWords
-			}) 
-			this.onConfirm();    
-		})
+		// console.log(imageData)
+		// this.getImgInfo(imageData).then(res => {
+		// 	this.setData({
+		// 		query:res.data.content,
+		// 		numberWords: res.data.numberWords
+		// 	}) 
+		// 	this.onConfirm();    
+		// })
+		this.getImgInfo(imageData) 
 	},
 
 

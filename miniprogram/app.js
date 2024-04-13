@@ -11,10 +11,6 @@ App({
 			})
 		}
 
-
-	
-
-
 	},
 	// 用于处理语言切换事件，将选中的语言索引（event.detail）存储到 active 变量中。
 	globalData: {
@@ -34,9 +30,14 @@ App({
 				'index': 1
 			},
 			{
+				'chs': '盲文',
+				'lang':'mw',
+				'index':2
+			},
+			{
 				'chs': '文言文',
 				'lang': 'wyw',
-				'index': 2
+				'index': 26
 			},
 			{
 				'chs': '日语',
