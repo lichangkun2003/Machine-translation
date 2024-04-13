@@ -1,5 +1,6 @@
 // 获取应用实例
-import {translate, imageInfo} from '../../utils/api.js'
+// import {translate, imageInfo} from '../../utils/api.js'
+import {translate, imageInfo} from '../../utils/apitest.js'
 const app = getApp();
 
 //引入插件：微信同声传译

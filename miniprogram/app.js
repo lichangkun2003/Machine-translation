@@ -2,6 +2,19 @@
 App({
 	onLaunch: function(){
 		this.globalData.curLang = wx.getStorageSync("curLang") || this.globalData.langList[0]
+
+		if (!wx.cloud) {
+			console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+		} else {
+			wx.cloud.init({
+				env: 'prod-2gwhqvn3e325f9f5', // 填入云托管环境ID
+			})
+		}
+
+
+	
+
+
 	},
 	// 用于处理语言切换事件，将选中的语言索引（event.detail）存储到 active 变量中。
 	globalData: {
