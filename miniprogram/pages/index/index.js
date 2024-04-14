@@ -1,12 +1,54 @@
 // 获取应用实例
 // import {translate, imageInfo} from '../../utils/api.js'
 import {translate,imageInfo} from '../../utils/apitest.js'
+import BrailleConverter from '../../utils/braille.js'
+
 const app = getApp();
 
 //引入插件：微信同声传译
 var plugin = requirePlugin("WechatSI");
 //获取全局唯一的语音识别管理器recordRecoManager
 let manager = plugin.getRecordRecognitionManager();
+
+// 检测盲文占比的函数
+function isBrailleText(text) {
+	// console.log(text)
+	let brailleChars = Object.keys(BrailleConverter.ASCII);
+	// console.log(brailleChars)
+	let textChars = text.split('');
+	let brailleCount = textChars.filter(char => brailleChars.includes(char)).length;
+	// console.log(brailleCount)
+	return brailleCount / textChars.length >= 0.5; // 假设盲文字数占比超过50%则认为是盲文
+}
+
+// 转换文本为英文或盲文的函数
+async function convertText(query, targetLang) {
+	if (isBrailleText(query)) {
+	  // 如果输入为盲文，则直接转换为英文
+	  let englishText = BrailleConverter.toText(query);
+	  let translationResult = await translate(englishText, { from: 'auto', to: targetLang });
+	  return { success: true, text: translationResult.data};
+	} else if (targetLang === 'mw') {
+	  // 如果目标语言为盲文，则先翻译成英文，再转换为盲文
+	  let translationResult = await translate(query, { from: 'auto', to: 'en' });
+	  console.log(translationResult)
+	  let englishText = translationResult.data[0].dst;
+	  console.log(englishText)
+	  let brailleText = BrailleConverter.toBraille(englishText);
+	// let brailleText = BrailleConverter.toBraille(query);
+	// console.log(brailleText)
+	  return { success: true, text: [{src:query,dst:brailleText}] };
+	} else {
+	  // 否则直接返回原文
+	//   console.log(targetLang)
+	  let translationResult = await translate(query, { from: 'auto', to: targetLang });
+	  console.log(translationResult)
+	  return { success: true, text: translationResult.data };
+	// translate(query, { from: 'auto', to: targetLang }).then(res => {
+	// 	return { success: true, text: res.data };
+	//   })
+	}
+}
 
 Page({
 	data:{
@@ -66,14 +108,30 @@ Page({
 			duration: 1500,
 		});
 
-		translate(this.data.query, {from: 'auto', to: this.data.curLang.lang}).then(res => {
-			this.setData({'result': res.data});
+		convertText(this.data.query, this.data.curLang.lang).then(result => {
+			if (result.success) {
+			  this.setData({'result': result.text});
+			  let history = wx.getStorageSync('history') || [];
+			  history.unshift({query: this.data.query, result: result.text[0].dst});
+			  history.length = history.length > 10 ? 10 : history.length;
+			  wx.setStorageSync('history', history);
+			} else {
+				console.log(this.data.query)
+			  	// this.setData({'result': this.data.query});
+			}
+		  }).catch(error => {
+			console.error('Error in convertText:', error);
+		});
+
+
+		// translate(this.data.query, {from: 'auto', to: this.data.curLang.lang}).then(res => {
+		// 	this.setData({'result': res.data});
 			
-			let history = wx.getStorageSync('history') || [];
-			history.unshift({query: this.data.query, result: res.data[0].dst});
-			history.length = history.length > 10 ? 10 : history.length;
-			wx.setStorageSync('history', history);
-		})
+		// 	let history = wx.getStorageSync('history') || [];
+		// 	history.unshift({query: this.data.query, result: res.data[0].dst});
+		// 	history.length = history.length > 10 ? 10 : history.length;
+		// 	wx.setStorageSync('history', history);
+		// })
 	},
 
 	// 实现函数节流，避免用户频繁点击翻译按钮导致翻译请求过多。在1500毫秒内只能点击一次翻译按钮。
