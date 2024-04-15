@@ -48,9 +48,14 @@ function translate(q, {from = 'auto', to = 'auto'} = {from: 'auto', to: 'auto'})
 		throw new Error(`服务器返回状态码：${res.statusCode}`); // 抛出错误
 	  }
 	}).catch(err => {
-	  // 失败时的回调
-	  console.error('调用云托管服务失败:', err);
-	  throw err; // 抛出错误
+		// 失败时的回调
+		wx.showToast({
+			title: '网络异常',
+			icon: 'none',
+			duration: 3000
+		});
+		console.error('调用云托管服务失败:', err);
+		throw err; // 抛出错误
 	});
 }
   
