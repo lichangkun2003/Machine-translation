@@ -105,7 +105,7 @@ Page({
 		wx.showToast({
 			title: "翻译中",
 			icon: 'none',
-			duration: 1500,
+			duration: 1000,
 		});
 
 		convertText(this.data.query, this.data.curLang.lang).then(result => {
@@ -115,6 +115,7 @@ Page({
 			  history.unshift({query: this.data.query, result: result.text[0].dst});
 			  history.length = history.length > 10 ? 10 : history.length;
 			  wx.setStorageSync('history', history);
+			  wx.hideLoading()
 			} else {
 				console.log(this.data.query)
 			  	// this.setData({'result': this.data.query});
