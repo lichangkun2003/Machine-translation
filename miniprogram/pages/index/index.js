@@ -3,6 +3,7 @@
 import {translate,imageInfo} from '../../utils/apitest.js'
 import BrailleConverter from '../../utils/braille.js'
 
+
 const app = getApp();
 
 //引入插件：微信同声传译
@@ -32,7 +33,7 @@ async function convertText(query, targetLang) {
 	  // 如果目标语言为盲文，则先翻译成英文，再转换为盲文
 	  let translationResult = await translate(query, { from: 'auto', to: 'en' });
 	  console.log(translationResult)
-	  let englishText = translationResult.data[0].dst;
+	  let englishText = translationResult.data[0].dst;-
 	  console.log(englishText)
 	  let brailleText = BrailleConverter.toBraille(englishText);
 	// let brailleText = BrailleConverter.toBraille(query);
@@ -382,32 +383,83 @@ Page({
             }
         });
     },
+  //  原函数
+	// fileUpload: function () {
+	// 	let that = this;
+	// 	wx.chooseMessageFile({
+	// 		count: 1,
+	// 		type: 'file',
+	// 		success: function (res) {
+	// 		  const filePath = res.tempFiles[0].path;
+	// 		  const fs = wx.getFileSystemManager()
+	// 		  fs.readFile({
+	// 			filePath: filePath,
+	// 			encoding: 'utf8',
+	// 			position: 0,
+	// 			success(res) {
+	// 				console.log(res.data)
+	// 				that.setData({
+	// 					query:res.data,
+	// 					numberWords: res.data.length
+	// 				}) 
+	// 				that.onConfirm();
+	// 		  	},
+	// 		  })
+	// 		},
+	// 		fail: function (res) {
+	// 		  console.error(res);
+	// 		}
+	// 	});  
+  // }
 
-	fileUpload: function () {
-		let that = this;
-		wx.chooseMessageFile({
-			count: 1,
-			type: 'file',
-			success: function (res) {
-			  const filePath = res.tempFiles[0].path;
-			  const fs = wx.getFileSystemManager()
-			  fs.readFile({
-				filePath: filePath,
-				encoding: 'utf8',
-				position: 0,
-				success(res) {
-					console.log(res.data)
-					that.setData({
-						query:res.data,
-						numberWords: res.data.length
-					}) 
-					that.onConfirm();
-			  	},
-			  })
-			},
-			fail: function (res) {
-			  console.error(res);
-			}
-		});  
-	}
+  fileUpload: function () {
+    let that = this;
+    wx.chooseMessageFile({
+        count: 1,
+        type: 'file',
+        success: function (res) {
+            const filePath = res.tempFiles[0].path;
+            // 获取文件后缀
+            const fileExt = filePath.split('.').pop().toLowerCase();
+            if (fileExt === 'txt') {
+                const fs = wx.getFileSystemManager();
+                fs.readFile({
+                    filePath: filePath,
+                    encoding: 'utf8',
+                    success(res) {
+                        console.log(res.data);
+                        that.setData({
+                            query: res.data,
+                            numberWords: res.data.length
+                        });
+                        that.onConfirm();
+                    },
+                    fail(res) {
+                        console.error(res);
+                    }
+                });
+            }
+            else if (fileExt === 'docx') {
+              wx.openDocument({
+                  filePath: filePath,
+                  success(res) {
+                      console.log('open file succeed');
+                  },
+                  fail(res) {
+                      console.error(res);
+                  }
+              });
+          }
+            else {
+                console.error('Unsupported file type');
+            }
+        },
+        fail: function (res) {
+            console.error(res);
+        }
+    });
+}
+
+
+
 })
